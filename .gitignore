@@ -1,0 +1,12 @@
+node_modules/
+.DS_Store
+.env
+.env.*
+.aws/
+.ssh/
+credentials.json
+**/credentials.json
+*.pem
+*.p12
+*.pfx
+*.key

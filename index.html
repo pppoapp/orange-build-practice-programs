@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#183b2a">
+  <title>여러 사업 실적 통합 | 아름다운가게</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="여러 사업 실적 통합 홈">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="brand-name">아름다운가게 <small>사업성과 데이터 워크북</small></span>
+      </a>
+      <div class="topbar-note"><span class="live-dot"></span> 내부 실적 분석</div>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-copy">
+          <p class="eyebrow">PROGRAM IMPACT · <span id="periodLabel">2024—2026</span></p>
+          <h1 id="page-title">여러 사업 실적 통합</h1>
+          <p class="hero-description">사업별 참여와 수료 현황을 한눈에 살펴보고, 연도와 분야에 따른 변화를 확인합니다.</p>
+        </div>
+        <div class="hero-aside"><span class="aside-icon" aria-hidden="true">✳</span><span>함께 만든 변화,<br><b>데이터로 읽다</b></span></div>
+        <div class="hero-bottom"><span class="demo-tag"><i></i> 교육용 가상 자료</span><span id="heroSource">기본 샘플 자료 · 3개 연도</span></div>
+      </section>
+
+      <section class="control-panel panel" aria-label="자료 및 필터">
+        <div class="control-head">
+          <div><p class="section-kicker">DATA & FILTER</p><h2>분석 조건</h2></div>
+          <button class="button button-quiet" id="restoreButton" type="button"><span aria-hidden="true">↺</span> 기본 자료 복원</button>
+        </div>
+        <div class="control-grid">
+          <div class="control-block upload-block">
+            <label class="control-label" for="csvFiles">자료 불러오기 <span class="optional">CSV · 여러 파일 선택 가능</span></label>
+            <div class="file-control"><input id="csvFiles" type="file" accept=".csv,text/csv" multiple><span class="file-icon" aria-hidden="true">↑</span><span class="file-copy"><b>CSV 파일 선택</b><small>선택한 파일 전체가 현재 자료를 대체합니다</small></span></div>
+            <p id="fileStatus" class="control-hint">기본 샘플 자료를 표시하고 있습니다.</p>
+          </div>
+          <fieldset class="control-block year-block">
+            <legend class="control-label">연도 <span class="optional">복수 선택</span></legend>
+            <div id="yearOptions" class="year-options" aria-live="polite"></div>
+          </fieldset>
+          <div class="control-block threshold-block">
+            <label class="control-label" for="threshold">주의 기준 <span class="optional">수료율 미만</span></label>
+            <div class="threshold-input"><input id="threshold" type="number" min="0" max="100" step="1" value="70"><span>%</span></div>
+            <p class="control-hint">기본 기준은 70%입니다.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="metrics-grid" aria-label="주요 실적 요약">
+        <article class="metric-card metric-green"><div class="metric-top"><span>참여자</span><span class="metric-icon">↗</span></div><strong id="metricParticipants">—</strong><small>명 · 선택 자료 합계</small></article>
+        <article class="metric-card"><div class="metric-top"><span>수료자</span><span class="metric-icon">✓</span></div><strong id="metricCompleters">—</strong><small>명 · 선택 자료 합계</small></article>
+        <article class="metric-card"><div class="metric-top"><span>전체 수료율</span><span class="metric-icon">◌</span></div><strong id="metricRate">—</strong><small>수료자 ÷ 참여자</small></article>
+        <article class="metric-card"><div class="metric-top"><span>사업 수</span><span class="metric-icon">▦</span></div><strong id="metricPrograms">—</strong><small>개 · 고유 사업 ID</small></article>
+        <article class="metric-card"><div class="metric-top"><span>선택 연도</span><span class="metric-icon">⌁</span></div><strong id="metricYears">—</strong><small>개 연도</small></article>
+        <article class="metric-card metric-caution"><div class="metric-top"><span>주의 항목</span><span class="metric-icon">!</span></div><strong id="metricCautions">—</strong><small id="cautionCaption">기준 미만 항목</small></article>
+      </section>
+
+      <section class="charts-section" aria-label="사업 실적 차트">
+        <article class="panel chart-card pie-card">
+          <div class="chart-heading"><div><p class="section-kicker">FIELD MIX</p><h2>분야별 참여 비중</h2></div><span class="chart-unit">단위 · 명, %</span></div>
+          <p class="chart-subtitle">선택 자료 참여자 중 분야별 구성</p>
+          <div class="pie-layout"><div class="svg-wrap pie-wrap" id="pieChart" role="img" aria-label="분야별 참여 비중 파이 차트"></div><div id="pieLegend" class="legend pie-legend"></div></div>
+          <div id="pieEmpty" class="empty-state" hidden>표시할 참여 실적이 없습니다.</div>
+        </article>
+        <article class="panel chart-card bar-card">
+          <div class="chart-heading"><div><p class="section-kicker">PROGRAMS</p><h2>사업별 참여·수료 비교</h2></div><span class="chart-unit">단위 · 명</span></div>
+          <p class="chart-subtitle">선택 연도 기준 사업별 인원</p>
+          <div class="bar-legend legend"><span><i class="legend-swatch participants-swatch"></i>참여자</span><span><i class="legend-swatch completers-swatch"></i>수료자</span></div>
+          <div class="svg-wrap bar-wrap" id="barChart" role="img" aria-label="사업별 참여자와 수료자 비교 막대 차트"></div>
+          <div id="barEmpty" class="empty-state" hidden>표시할 사업이 없습니다.</div>
+        </article>
+        <article class="panel chart-card line-card">
+          <div class="chart-heading"><div><p class="section-kicker">YEARLY TREND</p><h2>연도별 수료율 추이</h2></div><span class="chart-unit">단위 · %</span></div>
+          <p class="chart-subtitle">연도별 합산 수료자 ÷ 참여자 · 참여자 0명은 계산 불가</p>
+          <div class="legend line-legend"><span><i class="legend-swatch rate-swatch"></i>수료율</span></div>
+          <div class="svg-wrap line-wrap" id="lineChart" role="img" aria-label="연도별 수료율 추이 꺾은선 차트"></div>
+          <div id="lineEmpty" class="empty-state" hidden>표시할 연도별 실적이 없습니다.</div>
+        </article>
+      </section>
+
+      <section class="panel table-panel" aria-labelledby="table-title">
+        <div class="table-heading">
+          <div><p class="section-kicker">PROGRAM DETAIL</p><h2 id="table-title">사업별 상세 실적</h2><p class="chart-subtitle">현재 필터가 요약, 차트, 표, CSV에 함께 적용됩니다.</p></div>
+          <button class="button button-primary" id="downloadButton" type="button"><span aria-hidden="true">↓</span> 통합 CSV 다운로드</button>
+        </div>
+        <div class="table-meta"><span id="rowCount">0개 실적 행</span><span><i class="status-dot status-ok"></i> 양호 <i class="status-dot status-caution"></i> 기준 미달 <i class="status-dot status-null"></i> 계산 불가</span></div>
+        <div class="table-scroll"><table><thead><tr><th scope="col">연도</th><th scope="col">사업 ID</th><th scope="col">사업명</th><th scope="col">분야</th><th scope="col">지역</th><th scope="col" class="number">참여자</th><th scope="col" class="number">수료자</th><th scope="col" class="number">수료율</th><th scope="col">판정</th><th scope="col">자료 출처</th><th scope="col">원본 행</th></tr></thead><tbody id="detailRows"></tbody></table></div>
+        <div id="tableEmpty" class="empty-state table-empty" hidden>선택한 연도에 표시할 실적이 없습니다.</div>
+      </section>
+
+      <section class="panel rejected-panel" aria-labelledby="rejected-title">
+        <div class="rejected-heading"><div><p class="section-kicker">DATA CHECK</p><h2 id="rejected-title">제외된 행 확인</h2><p class="chart-subtitle">제외 행은 집계와 통합 CSV에 포함되지 않습니다. 출처와 원본 행 번호로 확인하세요.</p></div><span class="rejected-count" id="rejectedCount">0건 제외</span></div>
+        <div id="rejectedEmpty" class="rejected-empty"><span aria-hidden="true">✓</span> 제외된 행이 없습니다.</div>
+        <div id="rejectedList" class="rejected-list"></div>
+      </section>
+      <footer class="page-footer"><span>교육용 가상 자료를 사용합니다.</span><span>성과는 참여 인원 합산 기준으로 계산합니다.</span></footer>
+    </main>
+  </div>
+  <script src="js/sample-data.js"></script>
+  <script src="js/calculator.js"></script>
+  <script src="js/ui.js"></script>
+</body>
+</html>
+
+
+\n
